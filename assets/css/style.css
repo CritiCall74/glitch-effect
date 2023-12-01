@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css?family=Fira+Mono:400');
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+.container{
+    /* This is used only to display the text in the center of the page */
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    /* we set the background to black, you can set any color of your choice*/
+    background: #131313;
+    /* make sure to select a color for the text that matches the color of the background */
+    color: #fff;
+    font-size: 7rem;
+    font-family: 'Fira Mono', monospace;
+}
+
+/* we call the animation glitch on our main text */
+div.glitching-text{
+    animation: glitch 1s linear infinite;
+}
+
+@keyframes glitch{
+    /* from 2% until 64% of the animation the text will be translated of 2px and skewed of 0deg */
+    /* see skew definition here https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/skew */
+    /* Note that it's 2% and 64% of 1 second as we set the timing of our animation above to 1 sec */
+    2%,64%{
+        transform: translate(2px,0) skew(0deg);
+    }
+    4%,60%{
+        transform: translate(-2px,0) skew(0deg);
+    }
+    62%{
+        transform: translate(0,0) skew(5deg);
+    }
+}
+
+/* we define some elements to create the glitch */
+/* Those elements take as content the title of our div containing the main text */
+div.glitching-text:before,
+div.glitching-text:after{
+    content: attr(title);
+    position: absolute;
+    left: 0;
+}
+
+/* the first one of those elements will do the glitch effect on the top area of our text */
+div.glitching-text:before{
+    animation: glitchTop 1s linear infinite;
+    clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+}
+
+@keyframes glitchTop{
+    2%,64%{
+        transform: translate(2px,-2px);
+    }
+    4%,60%{
+        transform: translate(-2px,2px);
+    }
+    62%{
+        transform: translate(13px,-1px) skew(-13deg);
+    }
+}
+
+/* the second one will do the glitch effect on the bottom area of the main text*/
+div.glitching-text:after{
+    animation: glitchBotom 1.5s linear infinite;
+    clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+    -webkit-clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+}
+
+@keyframes glitchBotom{
+    2%,64%{
+        transform: translate(-2px,0);
+    }
+    4%,60%{
+        transform: translate(-2px,0);
+    }
+    62%{
+        transform: translate(-22px,5px) skew(21deg);
+    }
+}
